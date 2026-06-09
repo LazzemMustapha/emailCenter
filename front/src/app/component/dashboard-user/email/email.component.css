@@ -1,0 +1,38 @@
+/* Ajoutez vos styles CSS ici */
+
+.container {
+    margin-top: 20px;
+  }
+  
+  .col {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  h3 {
+    color: #007bff;
+  }
+  
+  p {
+    margin-bottom: 5px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 5px;
+  }
+  
+  li span {
+    font-weight: bold;
+  }
+  
+  hr {
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }
+  

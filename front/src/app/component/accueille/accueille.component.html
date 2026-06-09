@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to Our Platform</title>
+  <link rel="shortcut icon" type="image/png" href="/../assets/images/logos/favicon.png" />
+  
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center w-100">
+        <div class="text-center">
+          <h1>Welcome to Our Platform</h1>
+          <p>We are glad to have you here. Click the link below to recover your Gmail account information.</p>
+          <button class="btn btn-primary btn-lg rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#gmailFormModal">Recover Gmail Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gmail Form Modal -->
+  <div class="modal fade" id="gmailFormModal" tabindex="-1" aria-labelledby="gmailFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="gmailFormModalLabel">Recover Gmail Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="gmailForm" >
+            <div class="mb-3">
+              <label for="gmailEmail" class="form-label">Email:</label>
+              <input type="email" class="form-control" id="gmailEmail" formControlName="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="gmailPassword" class="form-label">Password:</label>
+              <input type="password" class="form-control" id="gmailPassword" formControlName="password" required>
+            </div>
+            <div class="mb-3">
+              <label for="gmailServeur" class="form-label">Server:</label>
+              <input type="text" class="form-control" id="gmailServeur" formControlName="serveur" required>
+            </div>
+            <div class="mb-3">
+              <label for="gmailPort" class="form-label">Port:</label>
+              <input type="number" class="form-control" id="gmailPort" formControlName="port" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary rounded-pill shadow-sm" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary rounded-pill shadow-sm"(click)="onSubmit()">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Accounts</title>
+    <link rel="shortcut icon" type="image/png" href="/../assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="/../assets/css/styles.min.css" />
+</head>
+<body>
+
+<div class="container-fluid mt-4" >
+    <div class="row">
+        <div class="col-lg-12 d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title fw-semibold mb-4">Email Accounts List</h5>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmailAccountModal">Add Email Account</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-nowrap mb-0 align-middle">
+                            <thead class="text-dark fs-4">
+                                <tr>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0">Email</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0">Password</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0">Actions</h6>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let account of accounts">
+                                    <a (click)="navigatetodash(account.id)" class="clickable"><td>{{ account.email }}</td> </a>
+                                    <td>{{ account.password }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Actions">
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEmailAccountModal" (click)="selectEmailAccount(account)">Update</button>
+                                            <button type="button" class="btn btn-danger" (click)="deleteAccount(account.id)">Delete</button>
+                                            <!--button type="button" class="btn btn-secondary" (click)="navigateToArchivingRules(account.id)">Archiving Rules</button>
+                                            <button type="button" class="btn btn-danger" (click)="navigateTolistemeail(account.id)">Liste Emails</button>
+                                            <button type="button" class="btn btn-danger" (click)="navigatetodash(account.id)">option</button>-->
+                                            
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for adding email account -->
+<div class="modal fade" id="addEmailAccountModal" tabindex="-1" aria-labelledby="addEmailAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEmailAccountModalLabel">Add Email Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" [(ngModel)]="newEmailAccount.email" name="email" placeholder="Enter Email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" [(ngModel)]="newEmailAccount.password" name="password" placeholder="Enter Password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="serveur" class="form-label">Serveur</label>
+                        <input type="text" class="form-control" id="serveur" [(ngModel)]="newEmailAccount.serveur" name="server" placeholder="Enter Server">
+                    </div>
+                    <div class="mb-3">
+                        <label for="port" class="form-label">Port</label>
+                        <input type="number" class="form-control" id="port" [(ngModel)]="newEmailAccount.port" name="port" placeholder="Enter Port">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="addAccount()">Add Email Account</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for editing email account -->
+<div class="modal fade" id="editEmailAccountModal" tabindex="-1" aria-labelledby="editEmailAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEmailAccountModalLabel">Edit Email Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form *ngIf="editEmailAccount">
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="editEmail" [(ngModel)]="editEmailAccount.email" name="editEmail" placeholder="Enter Email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="editPassword" [(ngModel)]="editEmailAccount.password" name="editPassword" placeholder="Enter Password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editServeur" class="form-label">Server</label>
+                        <input type="text" class="form-control" id="editServeur" [(ngModel)]="editEmailAccount.serveur" name="editServer" placeholder="Enter Server">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPort" class="form-label">Port</label>
+                        <input type="number" class="form-control" id="editPort" [(ngModel)]="editEmailAccount.port" name="editPort" placeholder="Enter Port">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="editAccount()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

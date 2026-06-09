@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modernize Free</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/../assets/css/styles.min.css" />
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title fw-semibold mb-4">Add User</h5>
+          <div class="card">
+            <div class="card-body">
+              <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" formControlName="email" required>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" formControlName="password" required>
+                </div>
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="username" formControlName="username" required>
+                </div>
+                <div class="mb-3">
+                  <label for="role" class="form-label">Role</label>
+                  <select class="form-control" id="role" formControlName="role" required>
+                    <option value="USER" [selected]="addUserForm.value.role === 'USER'">USER</option>
+                    <option value="ADMIN" [selected]="addUserForm.value.role === 'ADMIN'">ADMIN</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
+  

@@ -1,0 +1,10 @@
+body{
+    background-color: rgb(98, 98, 240);
+
+}
+.cent {
+    display: flex;
+    justify-content: center; /* Alignement horizontal */
+    align-items: center; /* Alignement vertical */
+    height: 100%; /* Assure que le contenu est centré verticalement */
+  }

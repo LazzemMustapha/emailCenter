@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modernize Free</title>
+  <link rel="shortcut icon" type="image/png" href="/../assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="/../assets/css/styles.min.css" />
+</head>
+
+<body>
+  <!-- Header End -->
+ 
+  <div class="row mt-4 d-flex justify-content-center align-items-center">
+    <div class="col-lg-12 mb-5 mb-xl-0">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Email List</h3>
+            </div>
+            <div class="col-auto ml-auto">
+              <button type="button" class="btn btn-sm btn-primary" (click)="refreshEmailList()">Refresh</button>
+            </div>
+            <div class="col-auto ml-auto">
+              <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  Actions
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" (click)="archiveEmail(selectedEmailId)">Archive</a></li>
+                  <li><a class="dropdown-item" (click)="deleteEmail(selectedEmailId)">Delete</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Advanced Search Form -->
+          <form id="searchForm" class="mb-4">
+            <div class="row">
+              <div class="col-md-3">
+                <input type="text" id="sender" class="form-control" placeholder="Sender">
+              </div>
+              <div class="col-md-3">
+                <input type="text" id="subject" class="form-control" placeholder="Subject">
+              </div>
+              <div class="col-md-3">
+                <input type="date" id="startDate" class="form-control" placeholder="Start Date">
+              </div>
+              <div class="col-md-3">
+                <input type="date" id="endDate" class="form-control" placeholder="End Date">
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" [(ngModel)]="selectedDomain" name="selectedDomain" (change)="filterByEmailDomain()">
+                  <option value="" disabled selected>Select Domain</option>
+                  <option *ngFor="let domain of emailDomains" [value]="domain.domainName">{{ domain.domainName }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-primary" (click)="filterEmails()">Search</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="selectAll" (change)="selectAllEmails($event)">
+                    <label class="form-check-label" for="selectAll"></label>
+                  </div>
+                </th>
+                <th scope="col">Sender</th>
+                <th scope="col">Recipient</th>
+                <th scope="col">Date</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let email of filteredEmails | paginate: { itemsPerPage:10, currentPage: p }" (click)="selectedEmailId = email.id"(click)="goToEmailDetails(email.id)">
+                <td>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input checkbox" [id]="'email' + email.id" [(ngModel)]="email.selected" (click)="$event.stopPropagation()">
+                    <label class="form-check-label" [for]="'email' + email.id"></label>
+                  </div>
+                </td>
+                <td>{{ email.sender }}</td>
+                <td>{{ email.recipients }}</td>
+                <td>{{ email.date }}</td>
+                <td>{{ email.subject }}</td>
+                <td>
+                  <div class="dropdown">
+                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{email.id}}" data-bs-toggle="dropdown" aria-expanded="false" (click)="$event.stopPropagation()">
+                      Actions
+                    </button>
+                    <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownMenuButton' + email.id">
+                      <li><button class="dropdown-item" (click)="archiveEmail(email.id)">Archive</button></li>
+                      <li><button class="dropdown-item" (click)="deleteEmail(email.id)">Delete</button></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+</body>
+
+</html>

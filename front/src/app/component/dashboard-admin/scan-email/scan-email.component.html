@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modernize Free</title>
+    <link rel="shortcut icon" type="image/png" href="/../assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="/../assets/css/styles.min.css" />
+</head>
+<body>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg-12 d-flex align-items-stretch">
+            <div class="card w-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title fw-semibold mb-4">Scan List</h5>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"data-bs-target="#addScanModal">Add Scan</button>
+                        
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-nowrap mb-0 align-middle">
+                            <thead class="text-dark fs-4">
+                                <tr>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0">Hour</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0">Minute</h6>
+                                    </th>
+                                    <th class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0">Actions</h6>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let scanRule of scanRules">
+                                    <td>{{ scanRule.hour }}</td>
+                                    <td>{{ scanRule.minute }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="Actions">
+                                            <button type="button" class="btn btn-danger" (click)="deleteScanRule(scanRule.id)">Delete</button>
+                                            <button type="button" class="btn btn-primary" (click)="selectScanRule(scanRule)" data-bs-toggle="modal" data-bs-target="#editScanModal">Update</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for adding scan -->
+<div class="modal fade" id="addScanModal" tabindex="-1" aria-labelledby="addScanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addScanModalLabel">Add Scan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="hour" class="form-label">Hour</label>
+                        <input type="number" class="form-control" id="hour" [(ngModel)]="newScanRule.hour" name="hour" placeholder="Enter hour">
+                    </div>
+                    <div class="mb-3">
+                        <label for="minute" class="form-label">Minute</label>
+                        <input type="number" class="form-control" id="minute" [(ngModel)]="newScanRule.minute" name="minute" placeholder="Enter minute">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="addScanRule()">Add Scan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for editing scan -->
+<div class="modal fade" id="editScanModal" tabindex="-1" aria-labelledby="editScanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editScanModalLabel">Edit Scan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="editHour" class="form-label">Hour</label>
+                        <input type="number" class="form-control" id="editHour" [(ngModel)]="editHour" name="editHour" placeholder="Enter hour">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editMinute" class="form-label">Minute</label>
+                        <input type="number" class="form-control" id="editMinute" [(ngModel)]="editMinute" name="editMinute" placeholder="Enter minute">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="updateScanRule()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
