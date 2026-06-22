@@ -180,36 +180,6 @@ public class  UserController {
         return ResponseEntity.ok(isUnique);
     }
 
-  //@CrossOrigin(origins = "http://localhost:8088")
-
-   /*  @PutMapping("/modifieruser/{id}")
-    public User update(@PathVariable("id") Integer id, @RequestBody User user) {
-        Optional<User> optionalMaison = userService.findById(id);
-
-        if (optionalMaison.isPresent()) {
-            User userr = optionalMaison.get();
-
-            
-           
-            userr.setUsername(user.getUsername());
-            userr.setEmail(user.getEmail());
-            userr.setRole(user.getRole());
-            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-                String encryptedPassword = passwordEncoder.encode(user.getPassword());
-                userr.setPassword(encryptedPassword);
-            }
-
-           
-
-            
-            userr = userService.save( userr);
-
-            return  userr;
-        } else {
-            
-            return null;
-        }
-    }*/
 
 
 @CrossOrigin(origins = "${app.cors.origin}")
