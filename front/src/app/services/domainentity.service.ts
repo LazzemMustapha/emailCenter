@@ -8,7 +8,7 @@ import { DomainEntity } from '../models/domain-entity';
   providedIn: 'root'
 })
 export class DomainEntityService {
-  private baseUrl = 'http://localhost:8088/api/v1/auth';
+  private baseUrl = 'http://localhost:8088/domains';
 
   constructor(private http: HttpClient) { }
 

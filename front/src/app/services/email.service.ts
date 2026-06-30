@@ -8,7 +8,7 @@ import { Email } from '../models/email';
   providedIn: 'root'
 })
 export class EmailService {
-  private baseUrl = 'http://localhost:8088/api/v1/auth/emails';
+  private baseUrl = 'http://localhost:8088/emails';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

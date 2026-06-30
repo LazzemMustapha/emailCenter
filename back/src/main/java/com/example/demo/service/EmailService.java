@@ -7,13 +7,17 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Value;
 @Service
 public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final Environment env;
+ @Value("${spring.mail.username}")
+    private String username;
 
+    @Value("${spring.mail.password}")
+    private String password;
 
     @Autowired
     public EmailService(JavaMailSender javaMailSender,Environment env) {

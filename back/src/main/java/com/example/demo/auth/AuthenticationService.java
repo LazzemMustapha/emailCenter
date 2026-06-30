@@ -1,6 +1,5 @@
 package com.example.demo.auth;
 
-
 import com.example.demo.Config.JwtService;
 import com.example.demo.entitys.Role;
 import com.example.demo.entitys.User;
@@ -12,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +20,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
 
 @RequiredArgsConstructor
 @Service
@@ -30,23 +29,19 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    
     @Autowired
-
     private UserRepository userRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.valueOf("ADMIN"))
                 .build();
-        var savedUser = repository.save(user);
-      
-        return AuthenticationResponse.builder()
-   
-                .build();
+        repository.save(user);
+        return AuthenticationResponse.builder().build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -58,10 +53,16 @@ public class AuthenticationService {
         );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+
+        // ← Ajouter l'email dans les claims du token
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("email", user.getEmail());
+
+        var jwtToken = jwtService.generateToken(extraClaims, user); // ← avec email
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
@@ -82,8 +83,7 @@ public class AuthenticationService {
 
     private void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
-            return;
+        if (validUserTokens.isEmpty()) return;
         validUserTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
@@ -91,23 +91,24 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-  public void refreshToken(
-    javax.servlet.http.HttpServletRequest request,
-    javax.servlet.http.HttpServletResponse response
+    public void refreshToken(
+        javax.servlet.http.HttpServletRequest request,
+        javax.servlet.http.HttpServletResponse response
     ) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            return;
-        }
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) return;
+
+        final String refreshToken = authHeader.substring(7);
+        final String userEmail = jwtService.extractEmail(refreshToken); // ← extractEmail
+
         if (userEmail != null) {
-            var user = this.repository.findByEmail(userEmail)
-                    .orElseThrow();
+            var user = this.repository.findByEmail(userEmail).orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
+                // ← email dans les claims du nouveau token aussi
+                Map<String, Object> extraClaims = new HashMap<>();
+                extraClaims.put("email", user.getEmail());
+
+                var accessToken = jwtService.generateToken(extraClaims, user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
                 var authResponse = AuthenticationResponse.builder()
@@ -118,29 +119,18 @@ public class AuthenticationService {
             }
         }
     }
-    public AuthenticationResponse register1(RegisterRequest request) {
-        var existingUser = userRepository.existsByEmail(request.getEmail());
 
-        if (existingUser == false) {
+    public AuthenticationResponse register1(RegisterRequest request) {
+        boolean existingUser = userRepository.existsByEmail(request.getEmail());
+        if (!existingUser) {
             var user = User.builder()
-                    
                     .email(request.getEmail())
-                            
                     .username(request.getUsername())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.valueOf("USER"))
                     .build();
-
-            var savedUser = userRepository.save(user);
-            // You can generate tokens and handle them as needed
-            // var jwtToken = jwtService.generateToken(user);
-            // var refreshToken = jwtService.generateRefreshToken(user);
-            // saveUserToken(savedUser, jwtToken);
-
-            return AuthenticationResponse.builder()
-                    // .accessToken(jwtToken)
-                    // .refreshToken(refreshToken)
-                    .build();
+            userRepository.save(user);
+            return AuthenticationResponse.builder().build();
         } else {
             return AuthenticationResponse.builder()
                     .error(true)
@@ -148,5 +138,4 @@ public class AuthenticationService {
                     .build();
         }
     }
-
 }

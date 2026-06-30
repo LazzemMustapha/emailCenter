@@ -47,23 +47,20 @@ export class AuthService {
       password: user.password
     }, httpOptions);
   }
-  logout(): Observable<any> {
-    // Récupérer le token d'authentification du stockage local
-    const authToken = localStorage.getItem('authToken');
-  
-    // Si le token est disponible, ajoutez-le aux en-têtes HTTP
-    if (authToken) {
-      // Ajoutez le token dans les en-têtes d'authentification
-      httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + authToken);
-    }
-  
-    // Effectuer la demande de déconnexion avec les en-têtes d'authentification
-    return this.http.post(AUTH_API +'/logout', {}, httpOptions).pipe(
-      tap(() => {
-        // Réinitialiser les données de l'utilisateur ou effectuer d'autres actions nécessaires après la déconnexion
-      })
-    );
+ logout(): Observable<any> {
+  const authToken = localStorage.getItem('jwtToken'); // ← uniformisé
+
+  if (authToken) {
+    httpOptions.headers = httpOptions.headers.set('Authorization', 'Bearer ' + authToken);
   }
+
+  return this.http.post(AUTH_API + '/logout', {}, httpOptions).pipe(
+    tap(() => {
+      localStorage.removeItem('jwtToken');   // ← nettoyer après logout
+      localStorage.removeItem('auth-user');
+    })
+  );
+}
   
   
 }

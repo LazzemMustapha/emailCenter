@@ -9,7 +9,8 @@ import { RegisterComponent } from './component/register/register.component';
 import { DashboardAdminComponent } from './component/dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './component/dashboard-user/dashboard-user.component';
 import { ReactiveFormsModule } from '@angular/forms'; // Supprimez cette ligne
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth.interceptor.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Register1Component } from './component/register1/register1.component';
 import { ListEmailComponent } from './component/dashboard-user/list-email/list-email.component';
@@ -66,7 +67,7 @@ import { ArchivComponent } from './component/archiv/archiv.component';
     BrowserAnimationsModule, 
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -18,7 +18,7 @@ import com.example.demo.service.DomainEntityService;
 
 @CrossOrigin(origins = "http://localhost:8088")
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/domains")
 public class DomainEntityController {
     @Autowired
     private DomainEntityService domainEntityService;

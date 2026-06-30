@@ -9,7 +9,7 @@ import { ArchivingRule } from '../models/archiving-rule';
 })
 export class ArchivingRuleService {
  
-  private baseUrl = 'http://localhost:8088/api/archivingRules';
+  private baseUrl = 'http://localhost:8088/archivingRules';
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

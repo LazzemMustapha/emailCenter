@@ -21,7 +21,7 @@ import com.example.demo.entitys.ArchivedEmail;
 import com.example.demo.service.ArchivedEmailService;
 
 @RestController
-@RequestMapping("/api/v1/auth/emails")
+@RequestMapping("/emails")
 public class ArchivedEmailController {
      @Autowired
     private ArchivedEmailService archivedEmailService;

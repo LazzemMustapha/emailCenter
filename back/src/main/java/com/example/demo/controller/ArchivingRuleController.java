@@ -10,7 +10,7 @@ import com.example.demo.service.ArchivingRuleService;
 
 
 @RestController
-@RequestMapping("/api/archivingRules")
+@RequestMapping("/archivingRules")
 public class ArchivingRuleController {
 
     @Autowired

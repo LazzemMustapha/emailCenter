@@ -21,7 +21,7 @@ import com.example.demo.service.ScanRuleService;
 
 
 @RestController
-@RequestMapping("/api/scan-rules")
+@RequestMapping("/scan-rules")
 public class ScanRuleController {
 	@Autowired
     ScanRuleService scanRuleService;

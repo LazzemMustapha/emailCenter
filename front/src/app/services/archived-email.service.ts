@@ -8,7 +8,7 @@ import { ArchivedEmail } from '../models/ArchivedEmail ';
   providedIn: 'root'
 })
 export class ArchivedEmailService {
-  private baseUrl = 'http://localhost:8088/api/v1/auth/emails';
+  private baseUrl = 'http://localhost:8088/emails';
 
   constructor(private http: HttpClient) { }
 

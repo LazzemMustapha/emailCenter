@@ -19,7 +19,7 @@ import com.example.demo.entitys.Email;
 import com.example.demo.service.EmailService1;
 
 @RestController
-@RequestMapping("/api/v1/auth/emails")
+@RequestMapping("/emails")
 public class EmailController {
 
     @Autowired

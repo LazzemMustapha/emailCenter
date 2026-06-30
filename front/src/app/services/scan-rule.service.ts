@@ -7,7 +7,7 @@ import { ScanRule } from '../models/scan-rule';
   providedIn: 'root'
 })
 export class ScanRuleService {
-  private baseUrl = 'http://localhost:8088/api/scan-rules';
+  private baseUrl = 'http://localhost:8088/scan-rules';
 
   // Définition des options HTTP avec les en-têtes appropriés
   private httpOptions = {
