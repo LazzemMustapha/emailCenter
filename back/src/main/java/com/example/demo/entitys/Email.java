@@ -83,7 +83,7 @@ public class Email {
 		this.body = body;
 		this.date = date;
 		this.attachments = attachments;
-		this.account=this.account;
+		this.account=account;
 	}
 
 	public Long getId() {

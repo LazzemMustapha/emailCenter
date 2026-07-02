@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entitys.DomainEntity;
 import com.example.demo.service.DomainEntityService;
 
-@CrossOrigin(origins = "http://localhost:8088")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/domains")
 public class DomainEntityController {

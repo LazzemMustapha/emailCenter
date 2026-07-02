@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.entitys.Account;
@@ -31,6 +32,12 @@ public interface EmailRepository extends JpaRepository<Email,Long>{
     Email findByIdAndAccountId(Long emailId, Long accountId);
 	List<Email> findBySenderContainingIgnoreCaseAndAccountId(String domainName, Long accountId);
 	Email getEmailById(Long emailId);
+	    @Query("SELECT DISTINCT e FROM Email e " +
+           "LEFT JOIN FETCH e.attachments " +
+           "LEFT JOIN FETCH e.domainEntities " +
+           "WHERE e.account.id = :accountId")
+    List<Email> findAllByAccountIdWithDetails(@Param("accountId") Long accountId);
+
 }
 
    

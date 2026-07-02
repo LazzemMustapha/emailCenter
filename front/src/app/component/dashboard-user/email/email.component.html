@@ -20,10 +20,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <hr>
-                <p>{{ email.body }}</p>
-                <hr>
+    <div class="col">
+        <hr>
+        <p [innerHTML]="safeBody"></p>
+        <hr>
                 <h4>Attachments:</h4>
                 <ul *ngIf="email.attachments && email.attachments.length">
                     <li *ngFor="let attachment of email.attachments">

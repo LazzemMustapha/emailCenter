@@ -39,8 +39,8 @@ export class ListeemailComponent {
       }
     );
   }
-  getAllDomainsByAccountId(accountId: number): void {
-    this.domainService.getAllDomainEntitiesByAccountId(this.accountId).subscribe(
+getAllDomainsByAccountId(accountId: number): void {
+    this.domainService.getAllDomainEntitiesByAccountId(accountId).subscribe(
       (domains: DomainEntity[]) => {
         this.emailDomains = domains;
       },

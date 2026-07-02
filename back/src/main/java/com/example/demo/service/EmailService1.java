@@ -85,7 +85,9 @@ public void scanConnectedUsersEvery3Min() {
         }
     }
 }
-
+public List<Email> getAllEmailsByAccountId(Long accountId) {
+    return emailRepository.findAllByAccountIdWithDetails(accountId);
+}
     // ✅ FETCH PRINCIPAL — seulement les nouveaux emails des 3 derniers jours
     @Async
     public void fetchAndSaveEmails(Long emailAccountId) {
